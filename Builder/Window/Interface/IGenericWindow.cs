@@ -13,12 +13,14 @@ namespace Builder
         event MouseClickHandler MouseClick;
         event MouseWheelHandler MouseWheel;
         event KeyEventHandler KeyEvent;
+        event DestroyedHandler Destroyed;
 
         void OnUpdate(object sender);
         void OnMouseMove(object sender, MouseMoveEventArgs e);
         void OnMouseClick(object sender, MouseClickEventArgs e);
         void OnMouseWheel(object sender, MouseWheelEventArgs e);
         void OnKeyEvent(object sender, KeyEventArgs e);
+        void OnDestroyed(object sender);
 
         void Show();
         void Hide();

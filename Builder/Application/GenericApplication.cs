@@ -53,8 +53,9 @@ namespace Builder
         /// <summary>
         /// MainLoop
         /// </summary>
-        /// <param name="UpdateCount">Update Count Per Seconds</param>
-        public void RunLoop(float UpdateCount = 0)
+        /// <param name="UpdateCount">Update Per Time</param>
+        /// <param name="SleepTime">Update Sleep Time (milliseconds)</param>
+        public void RunLoop(int UpdateCount = 0, int SleepTime = 0)
         {
             float delta = (UpdateCount != 0) ? 1f / UpdateCount : 0;
 
@@ -63,6 +64,8 @@ namespace Builder
 
             while (IsVailed is true)
             {
+                System.Threading.Thread.Sleep(SleepTime);
+
                 DateTime current_time = DateTime.Now;
                 passtime += (float)(current_time - last_time).TotalSeconds;
                 last_time = current_time;

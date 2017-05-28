@@ -67,9 +67,9 @@ namespace Builder
         public event MouseClickHandler MouseClick;
         public event MouseWheelHandler MouseWheel;
         public event KeyEventHandler KeyEvent;
+        public event DestroyedHandler Destroyed;
 
-        public GenericWindow((string Title, int Width, int Height) Definition,
-            bool Windowed = true)
+        public GenericWindow((string Title, int Width, int Height) Definition)
         {
             processEvent += Process;
 
@@ -118,8 +118,6 @@ namespace Builder
         }
         public void Destory()
         {
-            isVailed = false;
-            APILibrary.Win32.Internal.UnRegisterAppinfo(appinfo.lpszClassName, appinfo.hInstance);
             APILibrary.Win32.Internal.DestroyWindow(handle);
         }
 
@@ -235,10 +233,9 @@ namespace Builder
 
         }
 
-        public void SetCursor(string cursor)
+        public virtual void OnDestroyed(object sender)
         {
-            
-            throw new NotImplementedException();
+
         }
     }
 }

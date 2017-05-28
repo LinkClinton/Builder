@@ -66,6 +66,10 @@ Manager Application.
     //after this, the window will remove from application.
     ```
 
+## Sample
+
+Look At [**Mico**](https://github.com/LinkClinton/Mico/tree/master/Sample)
+
 ## Request
 - **.NET 4.7**
 - [**APILibrary**](https://github.com/LinkClinton/APILibrary)
