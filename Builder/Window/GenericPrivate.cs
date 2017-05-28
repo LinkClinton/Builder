@@ -156,6 +156,15 @@ namespace Builder
                     positionx = APILibrary.Win32.Message.LowWord(lParam);
                     positiony = APILibrary.Win32.Message.HighWord(lParam);
                     break;
+                case APILibrary.Win32.WinMsg.WM_MOUSEWHEEL:
+                    int window_offset = (short)APILibrary.Win32.Message.HighWord(wParam);
+                    PrivateMouseWheel(this, new MouseWheelEventArgs()
+                    {
+                        offset = window_offset > 0 ? window_offset / 120 : (window_offset / 120),
+                        x = APILibrary.Win32.Message.LowWord(lParam),
+                        y = APILibrary.Win32.Message.HighWord(lParam)
+                    });
+                    break;
                 default:
                     return APILibrary.Win32.Internal.DefWindowProc(Hwnd, message, wParam, lParam);
             }

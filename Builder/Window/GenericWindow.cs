@@ -8,6 +8,7 @@ namespace Builder
 {
     public partial class GenericWindow : IGenericWindow
     {
+        
         public bool IsVisible
         {
             get => isVisible;
@@ -232,6 +233,12 @@ namespace Builder
             APILibrary.Win32.Internal.ShowWindow(handle, (int)
                 APILibrary.Win32.ShowWindowStyles.SW_SHOW);
 
+        }
+
+        public void SetCursor(string cursor)
+        {
+            
+            throw new NotImplementedException();
         }
     }
 }

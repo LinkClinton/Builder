@@ -8,32 +8,56 @@ namespace Builder
 {
     public partial class GenericApplication : IGenericApplication
     {
+        /// <summary>
+        /// Create Application
+        /// </summary>
+        /// <param name="Icon">Window's Icon</param>
         public GenericApplication(string Icon)
         {
             appinfo.hIcon = APILibrary.Win32.Internal.LoadImage(IntPtr.Zero, AppIcon = Icon, 1, 0, 0, 0x00000010);
 
-
+            
         }
 
+        /// <summary>
+        /// If Application destory itself,this will be false.
+        /// </summary>
         public bool IsVailed => isVailed;
 
+        /// <summary>
+        /// Add Window to "addlist"
+        /// </summary>
+        /// <param name="window">A Window</param>
         public void Add(GenericWindow window)
         {
             AddList.Add(window);
         }
 
+        /// <summary>
+        /// Destory itself
+        /// </summary>
         public void Destory()
         {
             isVailed = false;
         }
 
+        /// <summary>
+        /// Remove a window from Application
+        /// </summary>
+        /// <param name="window"></param>
         public void Remove(GenericWindow window)
         {
             RemoveList.Add(window);
         }
 
-        public void RunLoop(float delta)
+        /// <summary>
+        /// MainLoop
+        /// </summary>
+        /// <param name="UpdateCount">Update Count Per Seconds</param>
+        public void RunLoop(float UpdateCount = 0)
         {
+            float delta = (UpdateCount != 0) ? 1f / UpdateCount : 0;
+
             float passtime = delta;
             DateTime last_time = DateTime.Now;
 

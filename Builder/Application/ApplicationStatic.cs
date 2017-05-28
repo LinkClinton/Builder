@@ -17,7 +17,7 @@ namespace Builder
                 cbWndExtra = 0,
                 hInstance = APILibrary.Win32.Internal.GetModuleHandle(null),
                 hbrBackground = APILibrary.Win32.Internal.GetStockObject(0),
-                hCursor = IntPtr.Zero,
+                hCursor = APILibrary.Win32.Internal.LoadCursor(IntPtr.Zero, (uint)APILibrary.Win32.CursorType.IDC_ARROW),
                 lpszMenuName = null
             };
         }
