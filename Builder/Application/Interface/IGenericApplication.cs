@@ -13,5 +13,9 @@ namespace Builder
         void Add(GenericWindow window);
 
         void Remove(GenericWindow window);
+
+        void Destory();
+
+        bool IsVailed { get; }
     }
 }

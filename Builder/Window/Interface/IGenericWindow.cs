@@ -39,12 +39,15 @@ namespace Builder
         bool IsMaximized { get; }
         bool IsFocus { get; }
         bool IsEnable { get; set; }
+        bool IsVailed { get; }
 
         float Opacity { get; set; }
         string Title { get; set; }
 
         int PositionX { get; set; }
         int PositionY { get; set; }
+        int Width { get; }
+        int Height { get; }
 
         IntPtr Handle { get; }
     }

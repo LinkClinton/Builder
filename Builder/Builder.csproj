@@ -41,7 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\ApplicationStatic.cs" />
     <Compile Include="Application\GenericApplication.cs" />
+    <Compile Include="Application\ApplicationPrivate.cs" />
     <Compile Include="Application\Interface\IGenericApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Window\GenericEvent.cs" />

@@ -53,7 +53,17 @@ namespace Builder
     public delegate void MouseClickHandler(object sender, MouseClickEventArgs e);
     public delegate void MouseWheelHandler(object sender, MouseWheelEventArgs e);
     public delegate void KeyEventHandler(object sender, KeyEventArgs e);
-    
+
+    public struct WindowDefinition
+    {
+        public int Width;
+        public int Height;
+        public string Title;
+        public string Icon;
+
+        public static explicit operator (string Title, string Icon, int Width, int Height) (WindowDefinition definition)
+            => (definition.Title, definition.Icon, definition.Width, definition.Height); 
+    }
 
 
 }

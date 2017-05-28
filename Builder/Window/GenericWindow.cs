@@ -13,44 +13,53 @@ namespace Builder
             get => isVisible;
             set
             {
-                isVisible = value;
-                if (isVisible is true) Show();
+                if (value is true) Show();
                 else Hide();
             }
         }
+
         public bool IsMinimized => isMinimized;
+
         public bool IsMaximized => IsMaximized;
+
         public bool IsFocus => isFocus;
+
         public bool IsEnable
         {
             get => isEnable;
-            set => Enable(isEnable = value);
+            set => Enable(value);
         }
+
+        public bool IsVailed => isVailed;
+
         public float Opacity
         {
             get => opacity;
-            set => SetOpacity(opacity = value);
+            set => SetOpacity(value);
         }
 
         public string Title
         {
             get => tag;
-            set => SetTitle(tag = value);
+            set => SetTitle(value);
         }
         public int PositionX
         {
             get => positionx;
-            set => MoveTo(positionx = value, positiony);
+            set => MoveTo(value, positiony);
         }
 
         public int PositionY
         {
             get => positiony;
-            set => MoveTo(positionx, positiony = value);
+            set => MoveTo(positionx, value);
         }
 
+        public int Width => width;
 
-        public IntPtr Handle => throw new NotImplementedException();
+        public int Height => height;
+
+        public IntPtr Handle => handle;
 
         public event UpdateHandler Update;
         public event MouseMoveHandler MouseMove;
@@ -58,32 +67,14 @@ namespace Builder
         public event MouseWheelHandler MouseWheel;
         public event KeyEventHandler KeyEvent;
 
-        public GenericWindow((string Tag, string Icon, int Width, int Height) Definition,
+        public GenericWindow((string Title, int Width, int Height) Definition,
             bool Windowed = true)
         {
-            tag = Definition.Tag;
-            icon = Definition.Icon;
+            processEvent += Process;
+
+            tag = Definition.Title;
             width = Definition.Width;
             height = Definition.Height;
-
-            processEvent += APILibrary.Win32.Internal.DefWindowProc;
-
-            appinfo = new APILibrary.Win32.AppInfo()
-            {
-                style = (uint)appstyle,
-                cbClsExtra = 0,
-                cbWndExtra = 0,
-                lpfnWndProc = processEvent,
-                hInstance = APILibrary.Win32.Internal.GetModuleHandle(null),
-                hIcon = APILibrary.Win32.Internal.LoadImage(IntPtr.Zero, icon,
-                1, 0, 0, 0x00000010),
-                hCursor = APILibrary.Win32.Internal.LoadCursor(IntPtr.Zero, (uint)APILibrary.Win32.CursorType.IDC_ARROW),
-                hbrBackground = IntPtr.Zero,
-                lpszClassName = tag,
-                lpszMenuName = null
-            };
-
-            APILibrary.Win32.Internal.RegisterAppinfo(ref appinfo);
 
             APILibrary.Win32.Rect realRect = new APILibrary.Win32.Rect()
             {
@@ -93,11 +84,28 @@ namespace Builder
                 bottom = height
             };
 
+            appinfo = new APILibrary.Win32.AppInfo()
+            {
+                style = GenericApplication.AppInfo.style,
+                cbClsExtra = GenericApplication.AppInfo.cbClsExtra,
+                cbWndExtra = GenericApplication.AppInfo.cbWndExtra,
+                hbrBackground = GenericApplication.AppInfo.hbrBackground,
+                hCursor = GenericApplication.AppInfo.hCursor,
+                hIcon = GenericApplication.AppInfo.hIcon,
+                hInstance = GenericApplication.AppInfo.hInstance,
+                lpszMenuName = GenericApplication.AppInfo.lpszMenuName,
+                lpfnWndProc = processEvent,
+                lpszClassName = tag
+            };
+
+            APILibrary.Win32.Internal.RegisterAppinfo(ref appinfo);
+
             APILibrary.Win32.Internal.AdjustWindowRect(ref realRect, (uint)windowstyle, false);
 
             handle = APILibrary.Win32.Internal.CreateWindowEx((uint)exstyle, tag, tag,
                 (uint)windowstyle, 0x80000000, 0x80000000, realRect.right - realRect.left,
-                realRect.bottom - realRect.top, IntPtr.Zero, IntPtr.Zero, appinfo.hInstance, IntPtr.Zero);
+                realRect.bottom - realRect.top, IntPtr.Zero, IntPtr.Zero,
+                GenericApplication.AppInfo.hInstance, IntPtr.Zero);
 
             APILibrary.Win32.Internal.SetLayeredWindowAttributes(handle, 0
                , 255, (uint)APILibrary.Win32.UpdateLayeredWindowsFlags.ULW_ALPHA);
@@ -109,6 +117,7 @@ namespace Builder
         }
         public void Destory()
         {
+            isVailed = false;
             APILibrary.Win32.Internal.UnRegisterAppinfo(appinfo.lpszClassName, appinfo.hInstance);
             APILibrary.Win32.Internal.DestroyWindow(handle);
         }
@@ -156,6 +165,8 @@ namespace Builder
 
         public void MoveTo(int x, int y)
         {
+            positionx = x;
+            positiony = y;
             APILibrary.Win32.Internal.MoveWindow(handle, positionx, positiony, width, height,
                 false);
         }
