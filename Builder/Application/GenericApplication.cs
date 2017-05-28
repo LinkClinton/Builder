@@ -32,10 +32,21 @@ namespace Builder
             RemoveList.Add(window);
         }
 
-        public void RunLoop()
+        public void RunLoop(float delta)
         {
+            float passtime = delta;
+            DateTime last_time = DateTime.Now;
+
             while (IsVailed is true)
             {
+                DateTime current_time = DateTime.Now;
+                passtime += (float)(current_time - last_time).TotalSeconds;
+                last_time = current_time;
+
+                if (passtime < delta) continue;
+
+                passtime -= delta;
+
                 PumpMessage();
 
                 foreach (var item in Windows)

@@ -17,7 +17,7 @@ namespace Builder
 
         private float opacity = 1;
         private string tag = null;
-
+        
         private int width = 0;
         private int height = 0;
         private int positionx = 0;
@@ -27,7 +27,6 @@ namespace Builder
         private APILibrary.Win32.AppInfo appinfo;
 
         private IntPtr handle = IntPtr.Zero;
-
 
         internal void PrivateOnUpdate(object sender)
         {

@@ -33,7 +33,7 @@ namespace Builder
 
         void MoveTo(int x, int y);
         void Destory();
-
+        
         bool IsVisible { get; set; }
         bool IsMinimized { get; }
         bool IsMaximized { get; }

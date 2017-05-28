@@ -8,7 +8,7 @@ namespace Builder
 {
     interface IGenericApplication
     {
-        void RunLoop();
+        void RunLoop(float delta = 0);
 
         void Add(GenericWindow window);
 
