@@ -24,20 +24,28 @@ namespace Builder
         void Hide();
         void Maximize();
         void Minimize();
+
         void SetFocus();
+        void SetCapture();
         void SetOpacity(float opacity);
-        void Enable(bool enable);
         void SetTitle(string Title);
+        void Enable(bool enable);
+
         void MoveTo(int x, int y);
         void Destory();
+
         bool IsVisible { get; set; }
         bool IsMinimized { get; set; }
         bool IsMaximized { get; set; }
         bool IsFocus { get; set; }
         bool IsEnable { get; set; }
+
         float Opacity { get; set; }
         string Title { get; set; }
+
         float PositionX { get; set; }
         float PositionY { get; set; }
+
+        IntPtr Handle { get; }
     }
 }

@@ -8,5 +8,19 @@ namespace Builder
 {
     public class GenericApplication : IGenericApplication
     {
+        public void Add(GenericWindow window)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Remove(GenericWindow window)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RunLoop()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

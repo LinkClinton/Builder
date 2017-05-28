@@ -8,6 +8,10 @@ namespace Builder
 {
     interface IGenericApplication
     {
+        void RunLoop();
 
+        void Add(GenericWindow window);
+
+        void Remove(GenericWindow window);
     }
 }

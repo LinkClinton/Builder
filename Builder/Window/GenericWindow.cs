@@ -18,16 +18,13 @@ namespace Builder
         public float PositionX { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public float PositionY { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
+        public IntPtr Handle => throw new NotImplementedException();
+
         public event UpdateHandler Update;
         public event MouseMoveHandler MouseMove;
         public event MouseClickHandler MouseClick;
         public event MouseWheelHandler MouseWheel;
         public event KeyEventHandler KeyEvent;
-
-        public GenericWindow(string Tag,int Width,int Height)
-        {
-            processEvent += APILibrary.Win32.Internal.DefWindowProc;
-        }
 
         public void Destory()
         {
@@ -59,29 +56,34 @@ namespace Builder
             throw new NotImplementedException();
         }
 
-        public virtual void OnKeyEvent(object sender, KeyEventArgs e)
+        public void OnKeyEvent(object sender, KeyEventArgs e)
         {
-
+            throw new NotImplementedException();
         }
 
-        public virtual void OnMouseClick(object sender, MouseClickEventArgs e)
+        public void OnMouseClick(object sender, MouseClickEventArgs e)
         {
-           
+            throw new NotImplementedException();
         }
 
-        public virtual void OnMouseMove(object sender, MouseMoveEventArgs e)
+        public void OnMouseMove(object sender, MouseMoveEventArgs e)
         {
-           
+            throw new NotImplementedException();
         }
 
-        public virtual void OnMouseWheel(object sender, MouseWheelEventArgs e)
+        public void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
-           
+            throw new NotImplementedException();
         }
 
-        public virtual void OnUpdate(object sender)
+        public void OnUpdate(object sender)
         {
-            
+            throw new NotImplementedException();
+        }
+
+        public void SetCapture()
+        {
+            throw new NotImplementedException();
         }
 
         public void SetFocus()
