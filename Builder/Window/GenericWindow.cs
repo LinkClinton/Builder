@@ -8,15 +8,47 @@ namespace Builder
 {
     public partial class GenericWindow : IGenericWindow
     {
-        public bool IsVisible { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool IsMinimized { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool IsMaximized { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool IsFocus { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool IsEnable { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public float Opacity { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string Title { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public float PositionX { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public float PositionY { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool IsVisible
+        {
+            get => isVisible;
+            set
+            {
+                isVisible = value;
+                if (isVisible is true) Show();
+                else Hide();
+            }
+        }
+        public bool IsMinimized => isMinimized;
+        public bool IsMaximized => IsMaximized;
+        public bool IsFocus => isFocus;
+        public bool IsEnable
+        {
+            get => isEnable;
+            set => Enable(isEnable = value);
+        }
+        public float Opacity
+        {
+            get => opacity;
+            set => SetOpacity(opacity = value);
+        }
+
+        public string Title
+        {
+            get => tag;
+            set => SetTitle(tag = value);
+        }
+        public int PositionX
+        {
+            get => positionx;
+            set => MoveTo(positionx = value, positiony);
+        }
+
+        public int PositionY
+        {
+            get => positiony;
+            set => MoveTo(positionx, positiony = value);
+        }
+
 
         public IntPtr Handle => throw new NotImplementedException();
 
@@ -26,84 +58,169 @@ namespace Builder
         public event MouseWheelHandler MouseWheel;
         public event KeyEventHandler KeyEvent;
 
+        public GenericWindow((string Tag, string Icon, int Width, int Height) Definition,
+            bool Windowed = true)
+        {
+            tag = Definition.Tag;
+            icon = Definition.Icon;
+            width = Definition.Width;
+            height = Definition.Height;
+
+            processEvent += APILibrary.Win32.Internal.DefWindowProc;
+
+            appinfo = new APILibrary.Win32.AppInfo()
+            {
+                style = (uint)appstyle,
+                cbClsExtra = 0,
+                cbWndExtra = 0,
+                lpfnWndProc = processEvent,
+                hInstance = APILibrary.Win32.Internal.GetModuleHandle(null),
+                hIcon = APILibrary.Win32.Internal.LoadImage(IntPtr.Zero, icon,
+                1, 0, 0, 0x00000010),
+                hCursor = APILibrary.Win32.Internal.LoadCursor(IntPtr.Zero, (uint)APILibrary.Win32.CursorType.IDC_ARROW),
+                hbrBackground = IntPtr.Zero,
+                lpszClassName = tag,
+                lpszMenuName = null
+            };
+
+            APILibrary.Win32.Internal.RegisterAppinfo(ref appinfo);
+
+            APILibrary.Win32.Rect realRect = new APILibrary.Win32.Rect()
+            {
+                left = 0,
+                top = 0,
+                right = width,
+                bottom = height
+            };
+
+            APILibrary.Win32.Internal.AdjustWindowRect(ref realRect, (uint)windowstyle, false);
+
+            handle = APILibrary.Win32.Internal.CreateWindowEx((uint)exstyle, tag, tag,
+                (uint)windowstyle, 0x80000000, 0x80000000, realRect.right - realRect.left,
+                realRect.bottom - realRect.top, IntPtr.Zero, IntPtr.Zero, appinfo.hInstance, IntPtr.Zero);
+
+            APILibrary.Win32.Internal.SetLayeredWindowAttributes(handle, 0
+               , 255, (uint)APILibrary.Win32.UpdateLayeredWindowsFlags.ULW_ALPHA);
+
+            APILibrary.Win32.Internal.GetWindowRect(handle, ref realRect);
+
+            positionx = realRect.left;
+            positiony = realRect.top;
+        }
         public void Destory()
         {
-            throw new NotImplementedException();
+            APILibrary.Win32.Internal.UnRegisterAppinfo(appinfo.lpszClassName, appinfo.hInstance);
+            APILibrary.Win32.Internal.DestroyWindow(handle);
         }
 
         public void Enable(bool enable)
         {
-            throw new NotImplementedException();
+            isEnable = enable;
         }
 
         public void Hide()
         {
-            throw new NotImplementedException();
+            if (isVisible is false) return;
+
+            isVisible = false;
+            isMaximized = false;
+            isMinimized = false;
+
+            APILibrary.Win32.Internal.ShowWindow(handle,
+                (int)APILibrary.Win32.ShowWindowStyles.SW_HIDE);
         }
 
         public void Maximize()
         {
-            throw new NotImplementedException();
+            if (isMaximized is true) return;
+
+            isVisible = true;
+            isMaximized = true;
+            isMinimized = false;
+
+            APILibrary.Win32.Internal.ShowWindow(handle,
+                (int)APILibrary.Win32.ShowWindowStyles.SW_MAXIMIZE);
         }
 
         public void Minimize()
         {
-            throw new NotImplementedException();
+            if (isMinimized is true) return;
+
+            isVisible = true;
+            isMaximized = false;
+            isMinimized = true;
+
+            APILibrary.Win32.Internal.ShowWindow(handle,
+                (int)APILibrary.Win32.ShowWindowStyles.SW_MINIMIZE);
         }
 
         public void MoveTo(int x, int y)
         {
-            throw new NotImplementedException();
+            APILibrary.Win32.Internal.MoveWindow(handle, positionx, positiony, width, height,
+                false);
         }
 
-        public void OnKeyEvent(object sender, KeyEventArgs e)
+        public virtual void OnKeyEvent(object sender, KeyEventArgs e)
         {
-            throw new NotImplementedException();
+            
         }
 
-        public void OnMouseClick(object sender, MouseClickEventArgs e)
+        public virtual void OnMouseClick(object sender, MouseClickEventArgs e)
         {
-            throw new NotImplementedException();
+           
         }
 
-        public void OnMouseMove(object sender, MouseMoveEventArgs e)
+        public virtual void OnMouseMove(object sender, MouseMoveEventArgs e)
         {
-            throw new NotImplementedException();
+            
         }
 
-        public void OnMouseWheel(object sender, MouseWheelEventArgs e)
+        public virtual void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            throw new NotImplementedException();
+            
         }
 
-        public void OnUpdate(object sender)
+        public virtual void OnUpdate(object sender)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void SetCapture()
         {
-            throw new NotImplementedException();
+            APILibrary.Win32.Internal.SetCapture(handle);
         }
 
         public void SetFocus()
         {
-            throw new NotImplementedException();
+            APILibrary.Win32.Internal.SetFocus(handle);
+
+            isFocus = true;
         }
 
-        public void SetOpacity(float opacity)
+        public void SetOpacity(float Opacity)
         {
-            throw new NotImplementedException();
+            opacity = Opacity;
+
+            APILibrary.Win32.Internal.SetLayeredWindowAttributes(handle, 0
+              , (byte)(255 * opacity), (uint)APILibrary.Win32.UpdateLayeredWindowsFlags.ULW_ALPHA);
         }
 
         public void SetTitle(string Title)
         {
-            throw new NotImplementedException();
+            tag = Title;
+
+            APILibrary.Win32.Internal.SetWindowText(handle, tag);
         }
 
         public void Show()
         {
-            throw new NotImplementedException();
+            if (isVisible is true) return;
+
+            isVisible = true;
+
+            APILibrary.Win32.Internal.ShowWindow(handle, (int)
+                APILibrary.Win32.ShowWindowStyles.SW_SHOW);
+
         }
     }
 }

@@ -47,6 +47,7 @@
     <Compile Include="Window\GenericEvent.cs" />
     <Compile Include="Window\GenericKeycode.cs" />
     <Compile Include="Window\GenericPrivate.cs" />
+    <Compile Include="Window\GenericStatic.cs" />
     <Compile Include="Window\GenericWindow.cs" />
     <Compile Include="Window\Interface\IGenericWindow.cs" />
   </ItemGroup>

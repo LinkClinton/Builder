@@ -27,7 +27,7 @@ namespace Builder
 
         void SetFocus();
         void SetCapture();
-        void SetOpacity(float opacity);
+        void SetOpacity(float Opacity);
         void SetTitle(string Title);
         void Enable(bool enable);
 
@@ -35,16 +35,16 @@ namespace Builder
         void Destory();
 
         bool IsVisible { get; set; }
-        bool IsMinimized { get; set; }
-        bool IsMaximized { get; set; }
-        bool IsFocus { get; set; }
+        bool IsMinimized { get; }
+        bool IsMaximized { get; }
+        bool IsFocus { get; }
         bool IsEnable { get; set; }
 
         float Opacity { get; set; }
         string Title { get; set; }
 
-        float PositionX { get; set; }
-        float PositionY { get; set; }
+        int PositionX { get; set; }
+        int PositionY { get; set; }
 
         IntPtr Handle { get; }
     }
