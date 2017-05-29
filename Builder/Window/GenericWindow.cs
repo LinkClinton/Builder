@@ -87,14 +87,14 @@ namespace Builder
 
             appinfo = new APILibrary.Win32.AppInfo()
             {
-                style = GenericApplication.AppInfo.style,
-                cbClsExtra = GenericApplication.AppInfo.cbClsExtra,
-                cbWndExtra = GenericApplication.AppInfo.cbWndExtra,
-                hbrBackground = GenericApplication.AppInfo.hbrBackground,
-                hCursor = GenericApplication.AppInfo.hCursor,
-                hIcon = GenericApplication.AppInfo.hIcon,
-                hInstance = GenericApplication.AppInfo.hInstance,
-                lpszMenuName = GenericApplication.AppInfo.lpszMenuName,
+                style = Application.AppInfo.style,
+                cbClsExtra = Application.AppInfo.cbClsExtra,
+                cbWndExtra = Application.AppInfo.cbWndExtra,
+                hbrBackground = Application.AppInfo.hbrBackground,
+                hCursor = Application.AppInfo.hCursor,
+                hIcon = Application.AppInfo.hIcon,
+                hInstance = Application.AppInfo.hInstance,
+                lpszMenuName = Application.AppInfo.lpszMenuName,
                 lpfnWndProc = processEvent,
                 lpszClassName = tag
             };
@@ -106,7 +106,7 @@ namespace Builder
             handle = APILibrary.Win32.Internal.CreateWindowEx((uint)exstyle, tag, tag,
                 (uint)windowstyle, 0x80000000, 0x80000000, realRect.right - realRect.left,
                 realRect.bottom - realRect.top, IntPtr.Zero, IntPtr.Zero,
-                GenericApplication.AppInfo.hInstance, IntPtr.Zero);
+                Application.AppInfo.hInstance, IntPtr.Zero);
 
             APILibrary.Win32.Internal.SetLayeredWindowAttributes(handle, 0
                , 255, (uint)APILibrary.Win32.UpdateLayeredWindowsFlags.ULW_ALPHA);

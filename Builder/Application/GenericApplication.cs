@@ -14,15 +14,13 @@ namespace Builder
         /// <param name="Icon">Window's Icon</param>
         public GenericApplication(string Icon)
         {
-            appinfo.hIcon = APILibrary.Win32.Internal.LoadImage(IntPtr.Zero, AppIcon = Icon, 1, 0, 0, 0x00000010);
-
-            
+            Application.AppIcon = Icon;
         }
 
         /// <summary>
         /// If Application destory itself,this will be false.
         /// </summary>
-        public bool IsVailed => isVailed;
+        public bool IsVailed => Application.IsVailed;
 
         /// <summary>
         /// Add Window to "addlist"
@@ -30,7 +28,7 @@ namespace Builder
         /// <param name="window">A Window</param>
         public void Add(GenericWindow window)
         {
-            AddList.Add(window);
+            Application.Add(window);
         }
 
         /// <summary>
@@ -38,7 +36,7 @@ namespace Builder
         /// </summary>
         public void Destory()
         {
-            isVailed = false;
+            Application.Destory();
         }
 
         /// <summary>
@@ -47,7 +45,7 @@ namespace Builder
         /// <param name="window"></param>
         public void Remove(GenericWindow window)
         {
-            RemoveList.Add(window);
+            Application.Remove(window);
         }
 
         /// <summary>
@@ -57,39 +55,9 @@ namespace Builder
         /// <param name="SleepTime">Update Sleep Time (milliseconds)</param>
         public void RunLoop(int UpdateCount = 0, int SleepTime = 0)
         {
-            float delta = (UpdateCount != 0) ? 1f / UpdateCount : 0;
-
-            float passtime = delta;
-            DateTime last_time = DateTime.Now;
-
-            while (IsVailed is true)
-            {
-                System.Threading.Thread.Sleep(SleepTime);
-
-                DateTime current_time = DateTime.Now;
-                passtime += (float)(current_time - last_time).TotalSeconds;
-                last_time = current_time;
-
-                if (passtime < delta) continue;
-
-                passtime -= delta;
-
-                PumpMessage();
-
-                foreach (var item in Windows)
-                {
-                    if (item.IsEnable is false) continue;
-                    if (item.IsVailed is false) Remove(item);
-
-                    item.PrivateOnUpdate(item);
-                }
-
-                foreach (var item in RemoveList) Windows.Remove(item);
-                foreach (var item in AddList) Windows.Add(item);
-
-                RemoveList.Clear();
-                AddList.Clear();
-            }
+            Application.UpdateCount = UpdateCount;
+            Application.SleepTime = SleepTime;
+            Application.RunLoop();
         }
     }
 }
