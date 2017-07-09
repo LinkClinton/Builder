@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Builder
 {
-    public partial class GenericWindow : IGenericWindow
+    public partial class GenericWindow
     {
         
         public bool IsVisible
@@ -69,13 +69,13 @@ namespace Builder
         public event KeyEventHandler KeyEvent;
         public event DestroyedHandler Destroyed;
 
-        public GenericWindow((string Title, int Width, int Height) Definition)
+        public GenericWindow(string Title, int Width, int Height)
         {
             processEvent += Process;
 
-            tag = Definition.Title;
-            width = Definition.Width;
-            height = Definition.Height;
+            tag = Title;
+            width = Width;
+            height = Height;
 
             APILibrary.Win32.Rect realRect = new APILibrary.Win32.Rect()
             {

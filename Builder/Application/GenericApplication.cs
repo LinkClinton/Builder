@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Builder
 {
-    public partial class GenericApplication : IGenericApplication
+    public partial class GenericApplication
     {
         /// <summary>
         /// Create Application

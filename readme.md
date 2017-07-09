@@ -71,5 +71,5 @@ Manager Application.
 Look At [**Mico**](https://github.com/LinkClinton/Mico/tree/master/Sample)
 
 ## Request
-- **.NET 4.7**
+- **.NET 4.6.2**
 - [**APILibrary**](https://github.com/LinkClinton/APILibrary)
