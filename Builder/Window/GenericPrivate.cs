@@ -63,6 +63,13 @@ namespace Builder
             KeyEvent?.Invoke(sender, e);
         }
 
+        internal void PrivateSizeChangeEvent(object sender,SizeChangeEventArgs e)
+        {
+            OnSizeChange(sender, e);
+
+            SizeChange?.Invoke(sender, e);
+        }
+
         internal void PrivateDestory(object sender)
         {
             OnDestroyed(sender);
@@ -171,6 +178,15 @@ namespace Builder
                         offset = window_offset > 0 ? window_offset / 120 : (window_offset / 120),
                         x = APILibrary.Win32.Message.LowWord(lParam),
                         y = APILibrary.Win32.Message.HighWord(lParam)
+                    });
+                    break;
+                case APILibrary.Win32.WinMsg.WM_SIZE:
+                    PrivateSizeChangeEvent(this, new SizeChangeEventArgs()
+                    {
+                        old_width = width,
+                        old_height = height,
+                        new_width = width = APILibrary.Win32.Message.LowWord(lParam),
+                        new_height = height = APILibrary.Win32.Message.HighWord(lParam)
                     });
                     break;
                 default:

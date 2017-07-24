@@ -4,41 +4,29 @@ Manager Application.
 
 ## Introduction
 
-### GenericApplication
+### Application
 
 - Add Window to Application
     ```C#
-    GenericApplication app = new GenericApplication(...);
-    
-    app.Add(new Window);
+    Application.Add(new Window);
     //after this, we add window to an "addlist".
     //after process message, we add it to Application.
     ```
 - Remove Window from Application
     ```C#
-    GenericApplication app = new GenericApplication(...);
-    
-    app.Remove(Window);
+    Application.Remove(new Window)
     //after this, we add window to an "removelist".
     //after process message, we remove it from Application.
     ```
 
 - RunLoop
     ```C#
-    GenericApplication app = new GenericApplication(...);
-    
-    app.RunLoop();
+    Application.RunLoop();
 
     //The main loop:
         //process window's message.
         //update window's message.
-    ```
-- Destory
-    ```C#
-    GenericApplication app = new GenericApplication(...);
-    
-    app.Destory();
-    //after this, the main loop will stop.
+        //if no window in Application -> End
     ```
 
 ### GenericWindow
@@ -52,7 +40,7 @@ Manager Application.
     ```
 - Enable  
     ```C#
-    GenericWindow window = new GenericWindow(...);
+    GenericWindow window = new Window(...);
 
     window.Enable(...);
     //if Enable is false,Process Event ... will ignore this window.
@@ -60,7 +48,7 @@ Manager Application.
 
 - Destory
     ```C#
-    GenericWindow window = new GenericWindow(...);
+    GenericWindow window = new Window(...);
 
     window.Destory();
     //after this, the window will remove from application.
@@ -68,7 +56,7 @@ Manager Application.
 
 ## Sample
 
-Look At [**Mico**](https://github.com/LinkClinton/Mico/tree/master/Sample)
+Look At [**SampleSet**](https://github.com/LinkClinton/SampleSet)
 
 ## Request
 - **.NET 4.6.2**

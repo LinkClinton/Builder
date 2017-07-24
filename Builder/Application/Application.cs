@@ -18,8 +18,6 @@ namespace Builder
         private static List<GenericWindow> AddList = new List<GenericWindow>();
         private static List<GenericWindow> RemoveList = new List<GenericWindow>();
 
-        private static bool isVailed = true;
-
         private static int updateCount = 0;
         private static int sleepTime = 0;
 
@@ -40,7 +38,7 @@ namespace Builder
 
         private static bool IsRunLoopEnd()
         {
-            return !(IsVailed is true && IsNoWindow() is false);
+            return IsNoWindow();
         }
 
         static Application()
@@ -66,11 +64,6 @@ namespace Builder
         public static void Remove(GenericWindow window)
         {
             RemoveList.Add(window);
-        }
-
-        public static void Destory()
-        {
-            isVailed = false;
         }
 
         public static void RunLoop()
@@ -111,13 +104,16 @@ namespace Builder
             }
         }
 
+        public static bool IsKeyDown(KeyCode keycode)
+        {
+            return APILibrary.Win32.Internal.GetKeyState((int)keycode) < 0;
+        }
+
         public static string AppIcon
         {
             get => appIcon;
             set { appIcon = value; appinfo.hIcon = APILibrary.Win32.Internal.LoadImage(IntPtr.Zero, appIcon, 1, 0, 0, 0x00000010); }
         }
-
-        public static bool IsVailed => isVailed;
 
         public static int UpdateCount { set => updateCount = value; get => updateCount; }
 

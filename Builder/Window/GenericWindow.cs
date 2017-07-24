@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Builder
 {
-    public partial class GenericWindow
+    public abstract partial class GenericWindow
     {
         
         public bool IsVisible
@@ -67,6 +67,7 @@ namespace Builder
         public event MouseClickHandler MouseClick;
         public event MouseWheelHandler MouseWheel;
         public event KeyEventHandler KeyEvent;
+        public event SizeChangeEventHandler SizeChange;
         public event DestroyedHandler Destroyed;
 
         public GenericWindow(string Title, int Width, int Height)
@@ -170,30 +171,13 @@ namespace Builder
                 false);
         }
 
-        public virtual void OnKeyEvent(object sender, KeyEventArgs e)
-        {
-            
-        }
-
-        public virtual void OnMouseClick(object sender, MouseClickEventArgs e)
-        {
-           
-        }
-
-        public virtual void OnMouseMove(object sender, MouseMoveEventArgs e)
-        {
-            
-        }
-
-        public virtual void OnMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            
-        }
-
-        public virtual void OnUpdate(object sender)
-        {
-            
-        }
+        public abstract void OnKeyEvent(object sender, KeyEventArgs e);
+        public abstract void OnMouseClick(object sender, MouseClickEventArgs e);
+        public abstract void OnMouseMove(object sender, MouseMoveEventArgs e);
+        public abstract void OnMouseWheel(object sender, MouseWheelEventArgs e);
+        public abstract void OnSizeChange(object sender, SizeChangeEventArgs e);
+        public abstract void OnUpdate(object sender);
+        public abstract void OnDestroyed(object sender);
 
         public void SetCapture()
         {
@@ -230,11 +214,6 @@ namespace Builder
 
             APILibrary.Win32.Internal.ShowWindow(handle, (int)
                 APILibrary.Win32.ShowWindowStyles.SW_SHOW);
-
-        }
-
-        public virtual void OnDestroyed(object sender)
-        {
 
         }
     }
